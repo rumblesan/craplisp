@@ -14,13 +14,13 @@ class parser(object):
         # reversing so we can just keep calling pop
         data = list(self.tokens)
         data.reverse()
-        # assuming the first element is a PAREN
-        # Also assuming that the parens are already balanced
-        el = data.pop()
-        if el[1] is not "(":
-            print("ERROR HERE")
-        else:
-            self.output = self.parse_list(data)
+        # assuming that the parens are already balanced
+        while True:
+            el = data.pop()
+            if el[1] is "(":
+                self.output.append(self.parse_list(data))
+            if len(data) is 0:
+                break
 
     def parse_list(self, token_data):
         out = []

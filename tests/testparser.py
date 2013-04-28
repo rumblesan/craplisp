@@ -27,7 +27,7 @@ class Testparser(unittest.TestCase):
         input_tokens = [("PAREN",  "("),
                         ("NUMBER", "34"),
                         ("PAREN",  ")")]
-        correct_output = ["34"]
+        correct_output = [["34"]]
         self.parser.setup(input_tokens)
         self.parser.parse()
         self.assertListEqual(correct_output, self.parser.output)
@@ -50,7 +50,36 @@ class Testparser(unittest.TestCase):
                         ("PAREN",  ")"),
 
                         ("PAREN",  ")")]
-        correct_output = ["+", ["*", "345", "86"], ["/", "100", "5"]]
+        correct_output = [["+", ["*", "345", "86"], ["/", "100", "5"]]]
+        self.parser.setup(input_tokens)
+        self.parser.parse()
+        self.assertListEqual(correct_output, self.parser.output)
+
+    def test_multisection_parse(self):
+        input_tokens = [("PAREN",  "("),
+                        ("NAME",   "defn"),
+                        ("NAME",   "a"),
+                        ("NUMBER", "20"),
+                        ("PAREN",  ")"),
+
+                        ("PAREN",  "("),
+                        ("SYMBOL", "+"),
+
+                        ("PAREN",  "("),
+                        ("SYMBOL", "*"),
+                        ("NUMBER", "345"),
+                        ("NAME",   "a"),
+                        ("PAREN",  ")"),
+
+                        ("PAREN",  "("),
+                        ("SYMBOL", "/"),
+                        ("NUMBER", "100"),
+                        ("NUMBER", "5"),
+                        ("PAREN",  ")"),
+
+                        ("PAREN",  ")")]
+        correct_output = [["defn", "a", "20"],
+                          ["+", ["*", "345", "a"], ["/", "100", "5"]]]
         self.parser.setup(input_tokens)
         self.parser.parse()
         self.assertListEqual(correct_output, self.parser.output)
