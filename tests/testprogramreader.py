@@ -68,3 +68,13 @@ class Testprogramreader(unittest.TestCase):
         self.assertEqual("", self.programreader.peek())
         self.assertEqual("", self.programreader.next_c())
         self.assertTrue(self.programreader.finished)
+
+    def test_with_list(self):
+        input_data = [1, 2, 3, 4, 5]
+        self.programreader.load(input_data)
+        self.assertEqual(1, self.programreader.peek())
+        self.assertEqual(1, self.programreader.next_c())
+        self.assertEqual(2, self.programreader.next_c())
+        self.assertEqual(3, self.programreader.next_c())
+        self.assertEqual(4, self.programreader.peek())
+        self.assertEqual(4, self.programreader.peek())
