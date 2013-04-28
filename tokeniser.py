@@ -39,7 +39,7 @@ class tokeniser(programreader):
                 num += self.next_c()
             else:
                 break
-        return ("NUMBER", num)
+        return ("NUMBER", int(num))
 
     def parse_name(self):
         name = ""

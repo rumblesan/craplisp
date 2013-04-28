@@ -47,10 +47,10 @@ class Testtokeniser(unittest.TestCase):
                           ("SYMBOL", "+"),
                           ("PAREN",  "("),
                           ("SYMBOL", "*"),
-                          ("NUMBER", "4"),
-                          ("NUMBER", "5"),
+                          ("NUMBER", 4),
+                          ("NUMBER", 5),
                           ("PAREN",  ")"),
-                          ("NUMBER", "4"),
+                          ("NUMBER", 4),
                           ("PAREN",  ")")]
         input_program = "(+ (* 4 5) 4)"
         self.tokeniser.load(input_program)
@@ -62,12 +62,12 @@ class Testtokeniser(unittest.TestCase):
                           ("SYMBOL", "+"),
                           ("PAREN",  "("),
                           ("SYMBOL", "*"),
-                          ("NUMBER", "45"),
-                          ("NUMBER", "579"),
+                          ("NUMBER", 45),
+                          ("NUMBER", 579),
                           ("PAREN",  ")"),
                           ("PAREN",  "("),
                           ("NAME",   "double"),
-                          ("NUMBER", "4000"),
+                          ("NUMBER", 4000),
                           ("PAREN",  ")"),
                           ("PAREN",  ")")]
         input_program = "(+ (* 45 579) (double 4000))"
@@ -80,12 +80,12 @@ class Testtokeniser(unittest.TestCase):
                           ("SYMBOL", "+"),
                           ("PAREN",  "("),
                           ("SYMBOL", "*"),
-                          ("NUMBER", "45"),
-                          ("NUMBER", "579"),
+                          ("NUMBER", 45),
+                          ("NUMBER", 579),
                           ("PAREN",  ")"),
                           ("PAREN",  "("),
                           ("NAME",   "double"),
-                          ("NUMBER", "4000"),
+                          ("NUMBER", 4000),
                           ("PAREN",  ")"),
                           ("PAREN",  ")")]
         input_program = "(+(*   45 579  )(double    4000)  )   "
@@ -98,8 +98,8 @@ class Testtokeniser(unittest.TestCase):
                           ("NAME",   "cond"),
                           ("PAREN",  "("),
                           ("SYMBOL", ">"),
-                          ("NUMBER", "45"),
-                          ("NUMBER", "579"),
+                          ("NUMBER", 45),
+                          ("NUMBER", 579),
                           ("PAREN",  ")"),
                           ("PAREN",  "("),
                           ("SYMBOL", "="),
