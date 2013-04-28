@@ -8,20 +8,17 @@ class tokeniser(object):
     def __init__(self):
         self.char_re = re.compile("""[a-zA-Z0-9"']""")
 
-    def setup(self, program_data):
-        self.program = program_data
-
     def long_token(self, char):
         if self.char_re.match(char):
             return True
         else:
             return False
 
-    def parse(self):
+    def tokenise(self, program):
         output = []
         current_token = ""
 
-        for c in self.program:
+        for c in program:
 
             if c == " ":
                 if len(current_token) > 0:

@@ -25,25 +25,25 @@ class Testtokeniser(unittest.TestCase):
 
     def test_simple_program(self):
         correct_output = ["(", "+", "(", "*", "4", "5", ")", "4", ")"]
-        self.tokeniser.setup("(+ (* 4 5) 4)")
-        token_output = self.tokeniser.parse()
+        input_program = "(+ (* 4 5) 4)"
+        token_output = self.tokeniser.tokenise(input_program)
         self.assertListEqual(correct_output, token_output)
 
     def test_longer_variable_program(self):
         correct_output = ["(", "+", "(", "*", "45", "579", ")", "4000", ")"]
-        self.tokeniser.setup("(+ (* 45 579) 4000)")
-        token_output = self.tokeniser.parse()
+        input_program = "(+ (* 45 579) 4000)"
+        token_output = self.tokeniser.tokenise(input_program)
         self.assertListEqual(correct_output, token_output)
 
     def test_badly_formatted_program(self):
         correct_output = ["(", "+", "(", "*", "45", "579", ")", "4000", ")"]
-        self.tokeniser.setup("(+(*   45 579  )4000)   ")
-        token_output = self.tokeniser.parse()
+        input_program = "(+(*   45 579  )4000)   "
+        token_output = self.tokeniser.tokenise(input_program)
         self.assertListEqual(correct_output, token_output)
 
     def test_string_and_names_program(self):
         correct_output = ["(", "cond", "(", ">", "45", "579", ")",
                           "(", "=", '"foo"', '"bar"', ")", ")"]
-        self.tokeniser.setup('(cond (> 45 579) (= "foo" "bar"))')
-        token_output = self.tokeniser.parse()
+        input_program = '(cond (> 45 579) (= "foo" "bar"))'
+        token_output = self.tokeniser.tokenise(input_program)
         self.assertListEqual(correct_output, token_output)
