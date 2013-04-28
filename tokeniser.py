@@ -10,7 +10,7 @@ class tokeniser(programreader):
     def __init__(self):
         self.char_re = re.compile("""[a-zA-Z]""")
         self.num_re = re.compile("""[0-9]""")
-        self.sym_re = re.compile("""[^a-zA-Z0-9" ]""")
+        self.sym_re = re.compile("""[^a-zA-Z0-9" ()]""")
 
         self.output = []
 
@@ -64,7 +64,10 @@ class tokeniser(programreader):
         #skip the double quote at the front
         self.next_c()
         while True:
-            if self.peek() is '"':
+            c = self.peek()
+            if c is '"' or c is "":
+                #skip the second double quote
+                self.next_c()
                 break
             else:
                 string += self.next_c()

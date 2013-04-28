@@ -57,21 +57,57 @@ class Testtokeniser(unittest.TestCase):
         self.tokeniser.tokenise()
         self.assertListEqual(correct_output, self.tokeniser.output)
 
-#    def test_longer_variable_program(self):
-#        correct_output = ["(", "+", "(", "*", "45", "579", ")", "4000", ")"]
-#        input_program = "(+ (* 45 579) 4000)"
-#        token_output = self.tokeniser.tokenise(input_program)
-#        self.assertListEqual(correct_output, token_output)
-#
-#    def test_badly_formatted_program(self):
-#        correct_output = ["(", "+", "(", "*", "45", "579", ")", "4000", ")"]
-#        input_program = "(+(*   45 579  )4000)   "
-#        token_output = self.tokeniser.tokenise(input_program)
-#        self.assertListEqual(correct_output, token_output)
-#
-#    def test_string_and_names_program(self):
-#        correct_output = ["(", "cond", "(", ">", "45", "579", ")",
-#                          "(", "=", '"foo"', '"bar"', ")", ")"]
-#        input_program = '(cond (> 45 579) (= "foo" "bar"))'
-#        token_output = self.tokeniser.tokenise(input_program)
-#        self.assertListEqual(correct_output, token_output)
+    def test_longer_variable_program(self):
+        correct_output = [("PAREN",  "("),
+                          ("SYMBOL", "+"),
+                          ("PAREN",  "("),
+                          ("SYMBOL", "*"),
+                          ("NUMBER", "45"),
+                          ("NUMBER", "579"),
+                          ("PAREN",  ")"),
+                          ("PAREN",  "("),
+                          ("NAME",   "double"),
+                          ("NUMBER", "4000"),
+                          ("PAREN",  ")"),
+                          ("PAREN",  ")")]
+        input_program = "(+ (* 45 579) (double 4000))"
+        self.tokeniser.load(input_program)
+        self.tokeniser.tokenise()
+        self.assertListEqual(correct_output, self.tokeniser.output)
+
+    def test_badly_formatted_program(self):
+        correct_output = [("PAREN",  "("),
+                          ("SYMBOL", "+"),
+                          ("PAREN",  "("),
+                          ("SYMBOL", "*"),
+                          ("NUMBER", "45"),
+                          ("NUMBER", "579"),
+                          ("PAREN",  ")"),
+                          ("PAREN",  "("),
+                          ("NAME",   "double"),
+                          ("NUMBER", "4000"),
+                          ("PAREN",  ")"),
+                          ("PAREN",  ")")]
+        input_program = "(+(*   45 579  )(double    4000)  )   "
+        self.tokeniser.load(input_program)
+        self.tokeniser.tokenise()
+        self.assertListEqual(correct_output, self.tokeniser.output)
+
+    def test_string_and_names_program(self):
+        correct_output = [("PAREN",  "("),
+                          ("NAME",   "cond"),
+                          ("PAREN",  "("),
+                          ("SYMBOL", ">"),
+                          ("NUMBER", "45"),
+                          ("NUMBER", "579"),
+                          ("PAREN",  ")"),
+                          ("PAREN",  "("),
+                          ("SYMBOL", "="),
+                          ("STRING", "foo"),
+                          ("STRING", "bar"),
+                          ("PAREN",  ")"),
+                          ("PAREN",  ")")]
+        input_program = '(cond (> 45 579) (= "foo" "bar"))'
+        self.tokeniser.load(input_program)
+        self.tokeniser.tokenise()
+        self.assertListEqual(correct_output, self.tokeniser.output)
