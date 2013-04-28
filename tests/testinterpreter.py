@@ -76,3 +76,13 @@ class Testinterpreter(unittest.TestCase):
         self.interpreter.setup(program)
         result = self.interpreter.run()
         self.assertEqual(10, result)
+
+    def test_maths_nested(self):
+        program = [["+",
+                   ["*", 3, 5],
+                   ["-", 9,
+                       ["*", 2, 2]],
+                   5]]
+        self.interpreter.setup(program)
+        result = self.interpreter.run()
+        self.assertEqual(25, result)
