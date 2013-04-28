@@ -153,3 +153,51 @@ class Testinterpreter(unittest.TestCase):
         result = self.interpreter.run()
         self.assertFalse(result)
 
+    def test_bool_and(self):
+        program = [["and",
+                   ["=", 5, 5],
+                   ["=", 5, 5]]]
+        self.interpreter.setup(program)
+        result = self.interpreter.run()
+        self.assertTrue(result)
+
+        program = [["and",
+                   ["=", 5, 5],
+                   ["=", 5, 6]]]
+        self.interpreter.setup(program)
+        result = self.interpreter.run()
+        self.assertFalse(result)
+
+    def test_bool_or(self):
+        program = [["or",
+                   ["=", 5, 5],
+                   ["=", 5, 5]]]
+        self.interpreter.setup(program)
+        result = self.interpreter.run()
+        self.assertTrue(result)
+
+        program = [["or",
+                   ["=", 5, 5],
+                   ["=", 5, 6]]]
+        self.interpreter.setup(program)
+        result = self.interpreter.run()
+        self.assertTrue(result)
+
+        program = [["or",
+                   ["=", 5, 7],
+                   ["=", 5, 6]]]
+        self.interpreter.setup(program)
+        result = self.interpreter.run()
+        self.assertFalse(result)
+
+    def test_bool_not(self):
+        program = [["not", ["=", 5, 5]]]
+        self.interpreter.setup(program)
+        result = self.interpreter.run()
+        self.assertFalse(result)
+
+        program = [["not", ["=", 5, 6]]]
+        self.interpreter.setup(program)
+        result = self.interpreter.run()
+        self.assertTrue(result)
+

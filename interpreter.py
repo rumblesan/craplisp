@@ -115,13 +115,30 @@ class interpreter(object):
 
     # boolean
     def bool_and(self, args):
-        pass
+        if len(args) is 0:
+            return True
+        else:
+            v = self.interpret(args.pop(0))
+            if not v:
+                return False
+            else:
+                return v and self.bool_and(args)
 
     def bool_or(self, args):
-        pass
+        if len(args) is 0:
+            return False
+        else:
+            v = self.interpret(args.pop(0))
+            if v:
+                return True
+            else:
+                return v or self.bool_or(args)
 
     def bool_not(self, args):
-        pass
+        if len(args) is not 1:
+            print("Should only be one arg for not")
+        else:
+            return not self.interpret(args.pop(0))
 
     # conditional
     def cond(self, args):
