@@ -86,3 +86,70 @@ class Testinterpreter(unittest.TestCase):
         self.interpreter.setup(program)
         result = self.interpreter.run()
         self.assertEqual(25, result)
+
+    def test_greaterthan(self):
+        program = [[">", 5, 4]]
+        self.interpreter.setup(program)
+        result = self.interpreter.run()
+        self.assertTrue(result)
+
+        program = [[">", 5, 6]]
+        self.interpreter.setup(program)
+        result = self.interpreter.run()
+        self.assertFalse(result)
+
+    def test_greaterthan_multi(self):
+        program = [[">", 5, 4, 3]]
+        self.interpreter.setup(program)
+        result = self.interpreter.run()
+        self.assertTrue(result)
+
+        program = [[">", 5, 4, 6]]
+        self.interpreter.setup(program)
+        result = self.interpreter.run()
+        self.assertFalse(result)
+
+    def test_lessthan(self):
+        program = [["<", 5, 6]]
+        self.interpreter.setup(program)
+        result = self.interpreter.run()
+        self.assertTrue(result)
+
+        program = [["<", 5, 4]]
+        self.interpreter.setup(program)
+        result = self.interpreter.run()
+        self.assertFalse(result)
+
+    def test_lessthan_multi(self):
+        program = [["<", 5, 6, 7]]
+        self.interpreter.setup(program)
+        result = self.interpreter.run()
+        self.assertTrue(result)
+
+        program = [["<", 5, 6, 5]]
+        self.interpreter.setup(program)
+        result = self.interpreter.run()
+        self.assertFalse(result)
+
+    def test_equal(self):
+        program = [["=", 5, 5]]
+        self.interpreter.setup(program)
+        result = self.interpreter.run()
+        self.assertTrue(result)
+
+        program = [["=", 5, 4]]
+        self.interpreter.setup(program)
+        result = self.interpreter.run()
+        self.assertFalse(result)
+
+    def test_equal_multi(self):
+        program = [["=", 5, 5, 5]]
+        self.interpreter.setup(program)
+        result = self.interpreter.run()
+        self.assertTrue(result)
+
+        program = [["=", 5, 5, 3]]
+        self.interpreter.setup(program)
+        result = self.interpreter.run()
+        self.assertFalse(result)
+

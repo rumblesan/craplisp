@@ -78,13 +78,40 @@ class interpreter(object):
 
     # comparison
     def greaterthan(self, args):
-        pass
+
+        def gt_recur(c, a):
+            if len(a) is 1:
+                n = self.interpret(a.pop(0))
+                return c > n
+            else:
+                n = self.interpret(a.pop(0))
+                return (c > n) and gt_recur(n, a)
+        current = self.interpret(args.pop(0))
+        return gt_recur(current, args)
 
     def lessthan(self, args):
-        pass
+
+        def lt_recur(c, a):
+            if len(a) is 1:
+                n = self.interpret(a.pop(0))
+                return c < n
+            else:
+                n = self.interpret(a.pop(0))
+                return (c < n) and lt_recur(n, a)
+        current = self.interpret(args.pop(0))
+        return lt_recur(current, args)
 
     def equals(self, args):
-        pass
+
+        def eq_recur(c, a):
+            if len(a) is 1:
+                n = self.interpret(a.pop(0))
+                return c == n
+            else:
+                n = self.interpret(a.pop(0))
+                return (c == n) and eq_recur(n, a)
+        current = self.interpret(args.pop(0))
+        return eq_recur(current, args)
 
     # boolean
     def bool_and(self, args):
