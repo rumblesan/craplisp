@@ -44,10 +44,9 @@ class interpreter(object):
 
     def interpret(self, data):
         if isinstance(data, list):
-            expr = data.pop(0)
-            return self.interpret_expression(expr, data)
+            return self.interpret_expression(data[0], data[1:])
         elif data in self.local_scope:
-            return self.local_scope[data]
+            return self.interpret(self.local_scope[data])
         elif data in self.symbol_table:
             return self.symbol_table[data]
         else:
@@ -89,12 +88,12 @@ class interpreter(object):
         if len(args) is 0:
             return 0
         else:
-            val = self.interpret(args.pop(0))
-            return val + self.plus(args)
+            val = self.interpret(args[0])
+            return val + self.plus(args[1:])
 
     def minus(self, args):
-        val = self.interpret(args.pop(0))
-        for v in args:
+        val = self.interpret(args[0])
+        for v in args[1:]:
             val -= self.interpret(v)
         return val
 
@@ -102,12 +101,12 @@ class interpreter(object):
         if len(args) is 0:
             return 1
         else:
-            val = self.interpret(args.pop(0))
-            return val * self.mult(args)
+            val = self.interpret(args[0])
+            return val * self.mult(args[1:])
 
     def divide(self, args):
-        val = self.interpret(args.pop(0))
-        for v in args:
+        val = self.interpret(args[0])
+        for v in args[1:]:
             val /= self.interpret(v)
         return val
 
@@ -116,64 +115,64 @@ class interpreter(object):
 
         def gt_recur(c, a):
             if len(a) is 1:
-                n = self.interpret(a.pop(0))
+                n = self.interpret(a[0])
                 return c > n
             else:
-                n = self.interpret(a.pop(0))
-                return (c > n) and gt_recur(n, a)
-        current = self.interpret(args.pop(0))
-        return gt_recur(current, args)
+                n = self.interpret(a[0])
+                return (c > n) and gt_recur(n, a[1:])
+        current = self.interpret(args[0])
+        return gt_recur(current, args[1:])
 
     def lessthan(self, args):
 
         def lt_recur(c, a):
             if len(a) is 1:
-                n = self.interpret(a.pop(0))
+                n = self.interpret(a[0])
                 return c < n
             else:
-                n = self.interpret(a.pop(0))
-                return (c < n) and lt_recur(n, a)
-        current = self.interpret(args.pop(0))
-        return lt_recur(current, args)
+                n = self.interpret(a[0])
+                return (c < n) and lt_recur(n, a[1:])
+        current = self.interpret(args[0])
+        return lt_recur(current, args[1:])
 
     def equals(self, args):
 
         def eq_recur(c, a):
             if len(a) is 1:
-                n = self.interpret(a.pop(0))
+                n = self.interpret(a[0])
                 return c == n
             else:
-                n = self.interpret(a.pop(0))
-                return (c == n) and eq_recur(n, a)
-        current = self.interpret(args.pop(0))
-        return eq_recur(current, args)
+                n = self.interpret(a[0])
+                return (c == n) and eq_recur(n, a[1:])
+        current = self.interpret(args[0])
+        return eq_recur(current, args[1:])
 
     # boolean
     def bool_and(self, args):
         if len(args) is 0:
             return True
         else:
-            v = self.interpret(args.pop(0))
+            v = self.interpret(args[0])
             if not v:
                 return False
             else:
-                return v and self.bool_and(args)
+                return v and self.bool_and(args[1:])
 
     def bool_or(self, args):
         if len(args) is 0:
             return False
         else:
-            v = self.interpret(args.pop(0))
+            v = self.interpret(args[0])
             if v:
                 return True
             else:
-                return v or self.bool_or(args)
+                return v or self.bool_or(args[1:])
 
     def bool_not(self, args):
         if len(args) is not 1:
             print("Should only be one arg for not")
         else:
-            return not self.interpret(args.pop(0))
+            return not self.interpret(args[0])
 
     # conditional
     def cond(self, args):
@@ -193,8 +192,8 @@ class interpreter(object):
             func = {}
             header = args[0]
             body = args[1]
-            name = header.pop(0)
-            func['args'] = header
+            name = header[0]
+            func['args'] = header[1:]
             func['body'] = body
             self.functions[name] = func
 
