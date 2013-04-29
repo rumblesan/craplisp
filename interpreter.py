@@ -142,11 +142,28 @@ class interpreter(object):
 
     # conditional
     def cond(self, args):
-        pass
+        statements = args[0]
+        for c in statements:
+            if self.interpret(c[0]) is True:
+                return self.interpret(c[1])
+        print("Error, no true condition in cond")
 
     # define
     def define(self, args):
-        pass
+
+        def define_var(args):
+            self.symbol_table[args[0]] = self.interpret(args[1])
+
+        def define_func(args):
+            print("can't define functions yet")
+            pass
+
+        if isinstance(args[0], list):
+            define_func(args)
+        else:
+            define_var(args)
+
+        return None
 
 
 if __name__ == '__main__':

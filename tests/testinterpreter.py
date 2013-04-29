@@ -201,3 +201,27 @@ class Testinterpreter(unittest.TestCase):
         result = self.interpreter.run()
         self.assertTrue(result)
 
+    def test_cond(self):
+        program = [["cond", [
+                    [[">", 5, 4], 5]
+                    ]
+                    ]]
+        self.interpreter.setup(program)
+        result = self.interpreter.run()
+        self.assertEqual(5, result)
+
+    def test_cond_multiple(self):
+        program = [["cond", [
+                    [[">", 5, 7], 9],
+                    [[">", 5, 4], 3]
+                    ]
+                    ]]
+        self.interpreter.setup(program)
+        result = self.interpreter.run()
+        self.assertEqual(3, result)
+
+    def test_define_variable(self):
+        program = [["define", "x", 5], ["define", "y", 6], ["+", "y", "x"]]
+        self.interpreter.setup(program)
+        result = self.interpreter.run()
+        self.assertEqual(11, result)
