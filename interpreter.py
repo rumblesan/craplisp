@@ -14,7 +14,7 @@ class interpreter(object):
     def run(self):
         for el in self.program:
             result = self.interpret(el)
-            if result:
+            if result is not None:
                 return result
 
     def interpret(self, data):
