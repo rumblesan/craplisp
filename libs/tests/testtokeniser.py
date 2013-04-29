@@ -49,6 +49,14 @@ class Testtokeniser(unittest.TestCase):
         self.tokeniser.tokenise()
         self.assertListEqual(correct_output, self.tokeniser.output)
 
+    def test_simple_program_constructor_load(self):
+        input_program = "()"
+        t = tokeniser(input_program)
+        correct_output = [("PAREN", "("), ("PAREN", ")")]
+        t.load(input_program)
+        t.tokenise()
+        self.assertListEqual(correct_output, t.output)
+
     def test_bigger_program(self):
         correct_output = [("PAREN",  "("),
                           ("SYMBOL", "+"),

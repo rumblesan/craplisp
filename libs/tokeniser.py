@@ -7,13 +7,15 @@ import re
 
 class tokeniser(programreader):
 
-    def __init__(self):
+    def __init__(self, program=None):
         self.char_re = re.compile("""[a-zA-Z]""")
         self.space_re = re.compile("""[\s]""")
         self.num_re = re.compile("""[0-9]""")
         self.sym_re = re.compile("""[^a-zA-Z0-9"\s()]""")
 
         self.output = []
+
+        super(tokeniser, self).__init__(program)
 
     def is_char(self, char):
         if self.char_re.match(char):
