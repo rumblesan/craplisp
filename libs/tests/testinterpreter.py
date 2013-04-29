@@ -231,3 +231,9 @@ class Testinterpreter(unittest.TestCase):
         self.interpreter.setup(program)
         result = self.interpreter.run()
         self.assertEqual(11, result)
+
+    def test_define_function(self):
+        program = [["define", ["double", "x"], ["*", "x", 2]], ["double", 2]]
+        self.interpreter.setup(program)
+        result = self.interpreter.run()
+        self.assertEqual(4, result)

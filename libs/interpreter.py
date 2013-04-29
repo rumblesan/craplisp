@@ -7,6 +7,11 @@ class interpreter(object):
         self.symbol_table = {}
         self.method_table = {}
         self.setup_method_table()
+        self.scopes = []
+        self.local_scope = {}
+
+        self.functions = {}
+
         if tokens:
             self.setup(tokens)
 
@@ -19,20 +24,48 @@ class interpreter(object):
             if result is not None:
                 return result
 
+    def create_local_scope(self, names, values):
+        if len(names) is not len(values):
+            print("should be as many args as names")
+        else:
+            scope = {}
+            for (k, v) in zip(names, values):
+                scope[k] = v
+            self.scopes.append(self.local_scope)
+            self.local_scope = scope
+
+        return scope
+
+    def exit_local_scope(self):
+        if len(self.scopes) > 0:
+            self.local_scope = self.scopes.pop()
+        else:
+            self.local_scope = {}
+
     def interpret(self, data):
         if isinstance(data, list):
             expr = data.pop(0)
             return self.interpret_expression(expr, data)
+        elif data in self.local_scope:
+            return self.local_scope[data]
         elif data in self.symbol_table:
             return self.symbol_table[data]
         else:
             return data
 
     def interpret_expression(self, expr, args):
+        if expr in self.functions:
+            return self.interpret_function(self.functions[expr], args)
         if expr in self.method_table:
             return self.method_table[expr](args)
         else:
             print("error")
+
+    def interpret_function(self, func, args):
+        self.create_local_scope(func['args'], args)
+        r = self.interpret(func['body'])
+        self.exit_local_scope()
+        return r
 
     def setup_method_table(self):
         self.method_table["+"] = self.plus
@@ -157,8 +190,13 @@ class interpreter(object):
             self.symbol_table[args[0]] = self.interpret(args[1])
 
         def define_func(args):
-            print("can't define functions yet")
-            pass
+            func = {}
+            header = args[0]
+            body = args[1]
+            name = header.pop(0)
+            func['args'] = header
+            func['body'] = body
+            self.functions[name] = func
 
         if isinstance(args[0], list):
             define_func(args)
