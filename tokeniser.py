@@ -9,8 +9,9 @@ class tokeniser(programreader):
 
     def __init__(self):
         self.char_re = re.compile("""[a-zA-Z]""")
+        self.space_re = re.compile("""[\s]""")
         self.num_re = re.compile("""[0-9]""")
-        self.sym_re = re.compile("""[^a-zA-Z0-9" ()]""")
+        self.sym_re = re.compile("""[^a-zA-Z0-9"\s()]""")
 
         self.output = []
 
@@ -28,6 +29,12 @@ class tokeniser(programreader):
 
     def is_symbol(self, char):
         if self.sym_re.match(char):
+            return True
+        else:
+            return False
+
+    def is_whitespace(self, char):
+        if self.space_re.match(char):
             return True
         else:
             return False
@@ -78,7 +85,7 @@ class tokeniser(programreader):
         while not self.finished:
             c = self.peek()
 
-            if c is " ":
+            if self.is_whitespace(c):
                 self.next_c()
                 pass
             elif c is "(" or c is ")":

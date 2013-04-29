@@ -75,7 +75,7 @@ class Testtokeniser(unittest.TestCase):
         self.tokeniser.tokenise()
         self.assertListEqual(correct_output, self.tokeniser.output)
 
-    def test_badly_formatted_program(self):
+    def test_whitespace(self):
         correct_output = [("PAREN",  "("),
                           ("SYMBOL", "+"),
                           ("PAREN",  "("),
@@ -88,7 +88,10 @@ class Testtokeniser(unittest.TestCase):
                           ("NUMBER", 4000),
                           ("PAREN",  ")"),
                           ("PAREN",  ")")]
-        input_program = "(+(*   45 579  )(double    4000)  )   "
+        input_program = """(+
+                           (*   45
+                                579  )	(double  	  4000)
+                            )   """
         self.tokeniser.load(input_program)
         self.tokeniser.tokenise()
         self.assertListEqual(correct_output, self.tokeniser.output)
