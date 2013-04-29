@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 
-from tokeniser import tokeniser
-from parser import parser
-from interpreter import interpreter
+from libs import tokeniser, parser, interpreter
 
 from sys import argv
 
