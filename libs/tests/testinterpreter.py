@@ -29,6 +29,12 @@ class Testinterpreter(unittest.TestCase):
         result = self.interpreter.run()
         self.assertEqual(5, result)
 
+    def test_single_num_creation_arg(self):
+        program = [5]
+        i = interpreter(program)
+        result = i.run()
+        self.assertEqual(5, result)
+
     def test_plus_basic(self):
         program = [["+", 5, 4]]
         self.interpreter.setup(program)

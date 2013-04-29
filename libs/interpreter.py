@@ -3,10 +3,12 @@
 
 class interpreter(object):
 
-    def __init__(self):
+    def __init__(self, tokens=None):
         self.symbol_table = {}
         self.method_table = {}
         self.setup_method_table()
+        if tokens:
+            self.setup(tokens)
 
     def setup(self, program):
         self.program = program
