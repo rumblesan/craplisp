@@ -29,6 +29,12 @@ class Testprogramreader(unittest.TestCase):
         self.assertFalse(self.programreader.finished)
         self.assertEqual(19, self.programreader.length)
 
+    def test_creation_arg_load(self):
+        test_program = "this is just a test"
+        p = programreader(test_program)
+        self.assertFalse(p.finished)
+        self.assertEqual(19, p.length)
+
     def test_empty(self):
         self.programreader.load("")
         self.assertEqual("", self.programreader.peek())

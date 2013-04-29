@@ -3,16 +3,18 @@
 
 class programreader(object):
 
-    def __init__(self):
+    def __init__(self, program=None):
         self.program = ""
         self.length = 0
         self.count = 0
         self.finished = True
 
+        if program:
+            self.load(program)
+
     def load(self, program_data):
         self.program = program_data
         self.length = len(program_data)
-        self.count = 0
         self.finished = False
 
     def next_c(self):
