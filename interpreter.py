@@ -46,8 +46,8 @@ class interpreter(object):
         self.method_table["or"] = self.bool_or
         self.method_table["not"] = self.bool_not
 
-        self.method_table["define"] = self.cond
-        self.method_table["cond"] = self.define
+        self.method_table["define"] = self.define
+        self.method_table["cond"] = self.cond
 
     # maths
     def plus(self, args):
@@ -58,7 +58,7 @@ class interpreter(object):
             return val + self.plus(args)
 
     def minus(self, args):
-        val = args.pop(0)
+        val = self.interpret(args.pop(0))
         for v in args:
             val -= self.interpret(v)
         return val
@@ -71,7 +71,7 @@ class interpreter(object):
             return val * self.mult(args)
 
     def divide(self, args):
-        val = args.pop(0)
+        val = self.interpret(args.pop(0))
         for v in args:
             val /= self.interpret(v)
         return val
