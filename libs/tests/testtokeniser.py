@@ -35,6 +35,13 @@ class Testtokeniser(unittest.TestCase):
         self.assertTrue(self.tokeniser.is_symbol("+"))
         self.assertFalse(self.tokeniser.is_symbol("c"))
 
+    def test_is_whitespace(self):
+        self.assertTrue(self.tokeniser.is_whitespace(" "))
+        self.assertTrue(self.tokeniser.is_whitespace("	"))
+        self.assertTrue(self.tokeniser.is_whitespace("""
+                                                     """))
+        self.assertFalse(self.tokeniser.is_whitespace("c"))
+
     def test_simple_program(self):
         input_program = "()"
         correct_output = [("PAREN", "("), ("PAREN", ")")]
