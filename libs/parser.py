@@ -3,9 +3,12 @@
 
 class parser(object):
 
-    def __init__(self):
+    def __init__(self, tokens=None):
         self.tokens = []
         self.output = []
+
+        if tokens:
+            self.setup(tokens)
 
     def setup(self, tokens):
         self.tokens = tokens

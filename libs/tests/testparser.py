@@ -23,6 +23,13 @@ class Testparser(unittest.TestCase):
     def test_creation(self):
         self.assertIsInstance(self.parser, parser)
 
+    def test_creation_with_args(self):
+        input_tokens = [("PAREN",  "("),
+                        ("NUMBER", "34"),
+                        ("PAREN",  ")")]
+        p = parser(input_tokens)
+        self.assertIsInstance(p, parser)
+
     def test_basic_parse(self):
         input_tokens = [("PAREN",  "("),
                         ("NUMBER", "34"),
