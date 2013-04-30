@@ -10,4 +10,5 @@ Cabal-Version:      >=1.2
 
 Executable craplisp
     Main-is:        Craplisp.hs
+    hs-source-dirs: src
     Build-Depends:  base >= 3 && < 5
