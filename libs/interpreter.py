@@ -3,20 +3,30 @@
 
 class interpreter(object):
 
-    def __init__(self, tokens=None):
+    def __init__(self, program=None, error_callback=None):
         self.symbol_table = {}
         self.method_table = {}
         self.setup_method_table()
         self.scopes = []
         self.local_scope = {}
 
+        # error callback should accept an error message and
+        # the callstack info
+        self.error_callback = error_callback
+        self.callstack = []
+
         self.functions = {}
 
-        if tokens:
-            self.load(tokens)
+        self.program = []
+
+        if program:
+            self.load(program)
 
     def load(self, program):
         self.program = program
+
+    def error(self, msg):
+        self.error_callback(msg, self.callstack)
 
     def run(self):
         for el in self.program:
@@ -26,7 +36,7 @@ class interpreter(object):
 
     def create_local_scope(self, names, values):
         if len(names) is not len(values):
-            print("should be as many args as names")
+            self.error("Should be as many args as names")
         else:
             scope = {}
             for (k, v) in zip(names, values):
@@ -54,15 +64,17 @@ class interpreter(object):
 
     def interpret_expression(self, expr, args):
         if expr in self.functions:
-            return self.interpret_function(self.functions[expr], args)
+            return self.interpret_function(expr, self.functions[expr], args)
         if expr in self.method_table:
             return self.method_table[expr](args)
         else:
-            print("error")
+            self.error("%s doesn't appear to be a valid function" % expr)
 
-    def interpret_function(self, func, args):
+    def interpret_function(self, name, func, args):
         self.create_local_scope(func['args'], args)
+        self.callstack.append((name, func['args'], args))
         r = self.interpret(func['body'])
+        self.callstack.pop()
         self.exit_local_scope()
         return r
 
@@ -170,7 +182,7 @@ class interpreter(object):
 
     def bool_not(self, args):
         if len(args) is not 1:
-            print("Should only be one arg for not")
+            self.error("Should only be one arg for not")
         else:
             return not self.interpret(args[0])
 
@@ -180,7 +192,7 @@ class interpreter(object):
         for c in statements:
             if self.interpret(c[0]) is True:
                 return self.interpret(c[1])
-        print("Error, no true condition in cond")
+        self.error("Error, no true condition in cond")
 
     # define
     def define(self, args):
