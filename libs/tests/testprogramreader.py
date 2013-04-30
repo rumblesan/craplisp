@@ -54,6 +54,23 @@ class Testprogramreader(unittest.TestCase):
         self.assertEqual("", self.programreader.next_c())
         self.assertTrue(self.programreader.finished)
 
+    def test_unnext(self):
+        self.programreader.load("ab")
+        self.assertEqual("a", self.programreader.peek())
+        self.assertEqual("a", self.programreader.next_c())
+        self.assertFalse(self.programreader.finished)
+        self.assertEqual("b", self.programreader.peek())
+        self.programreader.unnext_c()
+        self.assertEqual("a", self.programreader.peek())
+        self.assertEqual("a", self.programreader.next_c())
+        self.assertFalse(self.programreader.finished)
+        self.assertEqual("b", self.programreader.peek())
+        self.assertEqual("b", self.programreader.next_c())
+        self.assertFalse(self.programreader.finished)
+        self.assertEqual("", self.programreader.peek())
+        self.assertEqual("", self.programreader.next_c())
+        self.assertTrue(self.programreader.finished)
+
     def test_char_commands(self):
         input_program = "abcdefg"
         self.programreader.load(input_program)
