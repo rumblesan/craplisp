@@ -23,23 +23,19 @@ class Testtokeniser(unittest.TestCase):
     def test_creation(self):
         self.assertIsInstance(self.tokeniser, tokeniser)
 
-    def test_is_char(self):
-        self.assertTrue(self.tokeniser.is_char("c"))
-        self.assertFalse(self.tokeniser.is_char("4"))
-
     def test_is_number(self):
         self.assertTrue(self.tokeniser.is_number("4"))
         self.assertFalse(self.tokeniser.is_number("c"))
 
     def test_is_symbol(self):
         self.assertTrue(self.tokeniser.is_symbol("+"))
-        self.assertFalse(self.tokeniser.is_symbol("c"))
+        self.assertFalse(self.tokeniser.is_symbol("	"))
+        self.assertFalse(self.tokeniser.is_symbol("("))
 
     def test_is_whitespace(self):
         self.assertTrue(self.tokeniser.is_whitespace(" "))
         self.assertTrue(self.tokeniser.is_whitespace("	"))
-        self.assertTrue(self.tokeniser.is_whitespace("""
-                                                     """))
+        self.assertTrue(self.tokeniser.is_whitespace("\n"))
         self.assertFalse(self.tokeniser.is_whitespace("c"))
 
     def test_simple_program(self):
@@ -81,7 +77,7 @@ class Testtokeniser(unittest.TestCase):
                           ("NUMBER", 579),
                           ("PAREN",  ")"),
                           ("PAREN",  "("),
-                          ("NAME",   "double"),
+                          ("SYMBOL", "double"),
                           ("NUMBER", 4000),
                           ("PAREN",  ")"),
                           ("PAREN",  ")")]
@@ -99,7 +95,7 @@ class Testtokeniser(unittest.TestCase):
                           ("NUMBER", 579),
                           ("PAREN",  ")"),
                           ("PAREN",  "("),
-                          ("NAME",   "double"),
+                          ("SYMBOL", "double"),
                           ("NUMBER", 4000),
                           ("PAREN",  ")"),
                           ("PAREN",  ")")]
@@ -113,7 +109,7 @@ class Testtokeniser(unittest.TestCase):
 
     def test_string_and_names_program(self):
         correct_output = [("PAREN",  "("),
-                          ("NAME",   "cond"),
+                          ("SYMBOL", "cond"),
                           ("PAREN",  "("),
                           ("SYMBOL", ">"),
                           ("NUMBER", 45),
