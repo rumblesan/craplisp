@@ -23,6 +23,11 @@ class Testtokeniser(unittest.TestCase):
     def test_creation(self):
         self.assertIsInstance(self.tokeniser, tokeniser)
 
+    def test_creation_arg_load(self):
+        input_program = "()"
+        t = tokeniser(input_program)
+        self.assertIsInstance(t, tokeniser)
+
     def test_is_number(self):
         self.assertTrue(self.tokeniser.is_number("4"))
         self.assertFalse(self.tokeniser.is_number("c"))
