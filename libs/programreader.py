@@ -18,7 +18,7 @@ class programreader(object):
         self.count = 0
         self.finished = False
 
-    def next_c(self):
+    def next(self):
         if self.count >= self.length:
             self.finished = True
             return ""
@@ -27,7 +27,7 @@ class programreader(object):
             self.count += 1
             return c
 
-    def unnext_c(self):
+    def unnext(self):
         if self.count > 0:
             self.count -= 1
 
