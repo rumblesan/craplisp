@@ -15,6 +15,7 @@ class programreader(object):
     def load(self, program_data):
         self.program = program_data
         self.length = len(program_data)
+        self.count = 0
         self.finished = False
 
     def next_c(self):
