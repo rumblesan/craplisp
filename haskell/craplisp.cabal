@@ -1,0 +1,13 @@
+Name:               craplisp
+Version:            0.0
+Description:        A crap lisp interpreter
+License:            BSD
+License-file:       ../README.md
+Author:             Guy John
+Maintainer:         guy@rumblesan.com
+Build-Type:         Simple
+Cabal-Version:      >=1.2
+
+Executable craplisp
+    Main-is:        Craplisp.hs
+    Build-Depends:  base >= 3 && < 5
