@@ -8,9 +8,9 @@ class parser(object):
         self.output = []
 
         if tokens:
-            self.setup(tokens)
+            self.load(tokens)
 
-    def setup(self, tokens):
+    def load(self, tokens):
         self.tokens = tokens
 
     def parse(self):

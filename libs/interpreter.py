@@ -13,9 +13,9 @@ class interpreter(object):
         self.functions = {}
 
         if tokens:
-            self.setup(tokens)
+            self.load(tokens)
 
-    def setup(self, program):
+    def load(self, program):
         self.program = program
 
     def run(self):

@@ -25,7 +25,7 @@ class Testinterpreter(unittest.TestCase):
 
     def test_single_num(self):
         program = [5]
-        self.interpreter.setup(program)
+        self.interpreter.load(program)
         result = self.interpreter.run()
         self.assertEqual(5, result)
 
@@ -37,49 +37,49 @@ class Testinterpreter(unittest.TestCase):
 
     def test_plus_basic(self):
         program = [["+", 5, 4]]
-        self.interpreter.setup(program)
+        self.interpreter.load(program)
         result = self.interpreter.run()
         self.assertEqual(9, result)
 
     def test_plus_multi(self):
         program = [["+", 5, 4, 3, 2, 1]]
-        self.interpreter.setup(program)
+        self.interpreter.load(program)
         result = self.interpreter.run()
         self.assertEqual(15, result)
 
     def test_minus(self):
         program = [["-", 5, 4]]
-        self.interpreter.setup(program)
+        self.interpreter.load(program)
         result = self.interpreter.run()
         self.assertEqual(1, result)
 
     def test_minus_multi(self):
         program = [["-", 10, 2, 2, 3]]
-        self.interpreter.setup(program)
+        self.interpreter.load(program)
         result = self.interpreter.run()
         self.assertEqual(3, result)
 
     def test_multiply(self):
         program = [["*", 5, 4]]
-        self.interpreter.setup(program)
+        self.interpreter.load(program)
         result = self.interpreter.run()
         self.assertEqual(20, result)
 
     def test_multiply_multi(self):
         program = [["*", 5, 4, 2, 3]]
-        self.interpreter.setup(program)
+        self.interpreter.load(program)
         result = self.interpreter.run()
         self.assertEqual(120, result)
 
     def test_divide(self):
         program = [["/", 10, 2]]
-        self.interpreter.setup(program)
+        self.interpreter.load(program)
         result = self.interpreter.run()
         self.assertEqual(5, result)
 
     def test_divide_multi(self):
         program = [["/", 100, 2, 5]]
-        self.interpreter.setup(program)
+        self.interpreter.load(program)
         result = self.interpreter.run()
         self.assertEqual(10, result)
 
@@ -89,73 +89,73 @@ class Testinterpreter(unittest.TestCase):
                    ["-", 9,
                        ["*", 2, 2]],
                    5]]
-        self.interpreter.setup(program)
+        self.interpreter.load(program)
         result = self.interpreter.run()
         self.assertEqual(25, result)
 
     def test_greaterthan(self):
         program = [[">", 5, 4]]
-        self.interpreter.setup(program)
+        self.interpreter.load(program)
         result = self.interpreter.run()
         self.assertTrue(result)
 
         program = [[">", 5, 6]]
-        self.interpreter.setup(program)
+        self.interpreter.load(program)
         result = self.interpreter.run()
         self.assertFalse(result)
 
     def test_greaterthan_multi(self):
         program = [[">", 5, 4, 3]]
-        self.interpreter.setup(program)
+        self.interpreter.load(program)
         result = self.interpreter.run()
         self.assertTrue(result)
 
         program = [[">", 5, 4, 6]]
-        self.interpreter.setup(program)
+        self.interpreter.load(program)
         result = self.interpreter.run()
         self.assertFalse(result)
 
     def test_lessthan(self):
         program = [["<", 5, 6]]
-        self.interpreter.setup(program)
+        self.interpreter.load(program)
         result = self.interpreter.run()
         self.assertTrue(result)
 
         program = [["<", 5, 4]]
-        self.interpreter.setup(program)
+        self.interpreter.load(program)
         result = self.interpreter.run()
         self.assertFalse(result)
 
     def test_lessthan_multi(self):
         program = [["<", 5, 6, 7]]
-        self.interpreter.setup(program)
+        self.interpreter.load(program)
         result = self.interpreter.run()
         self.assertTrue(result)
 
         program = [["<", 5, 6, 5]]
-        self.interpreter.setup(program)
+        self.interpreter.load(program)
         result = self.interpreter.run()
         self.assertFalse(result)
 
     def test_equal(self):
         program = [["=", 5, 5]]
-        self.interpreter.setup(program)
+        self.interpreter.load(program)
         result = self.interpreter.run()
         self.assertTrue(result)
 
         program = [["=", 5, 4]]
-        self.interpreter.setup(program)
+        self.interpreter.load(program)
         result = self.interpreter.run()
         self.assertFalse(result)
 
     def test_equal_multi(self):
         program = [["=", 5, 5, 5]]
-        self.interpreter.setup(program)
+        self.interpreter.load(program)
         result = self.interpreter.run()
         self.assertTrue(result)
 
         program = [["=", 5, 5, 3]]
-        self.interpreter.setup(program)
+        self.interpreter.load(program)
         result = self.interpreter.run()
         self.assertFalse(result)
 
@@ -163,14 +163,14 @@ class Testinterpreter(unittest.TestCase):
         program = [["and",
                    ["=", 5, 5],
                    ["=", 5, 5]]]
-        self.interpreter.setup(program)
+        self.interpreter.load(program)
         result = self.interpreter.run()
         self.assertTrue(result)
 
         program = [["and",
                    ["=", 5, 5],
                    ["=", 5, 6]]]
-        self.interpreter.setup(program)
+        self.interpreter.load(program)
         result = self.interpreter.run()
         self.assertFalse(result)
 
@@ -178,32 +178,32 @@ class Testinterpreter(unittest.TestCase):
         program = [["or",
                    ["=", 5, 5],
                    ["=", 5, 5]]]
-        self.interpreter.setup(program)
+        self.interpreter.load(program)
         result = self.interpreter.run()
         self.assertTrue(result)
 
         program = [["or",
                    ["=", 5, 5],
                    ["=", 5, 6]]]
-        self.interpreter.setup(program)
+        self.interpreter.load(program)
         result = self.interpreter.run()
         self.assertTrue(result)
 
         program = [["or",
                    ["=", 5, 7],
                    ["=", 5, 6]]]
-        self.interpreter.setup(program)
+        self.interpreter.load(program)
         result = self.interpreter.run()
         self.assertFalse(result)
 
     def test_bool_not(self):
         program = [["not", ["=", 5, 5]]]
-        self.interpreter.setup(program)
+        self.interpreter.load(program)
         result = self.interpreter.run()
         self.assertFalse(result)
 
         program = [["not", ["=", 5, 6]]]
-        self.interpreter.setup(program)
+        self.interpreter.load(program)
         result = self.interpreter.run()
         self.assertTrue(result)
 
@@ -212,7 +212,7 @@ class Testinterpreter(unittest.TestCase):
                     [[">", 5, 4], 5]
                     ]
                     ]]
-        self.interpreter.setup(program)
+        self.interpreter.load(program)
         result = self.interpreter.run()
         self.assertEqual(5, result)
 
@@ -222,18 +222,18 @@ class Testinterpreter(unittest.TestCase):
                     [[">", 5, 4], 3]
                     ]
                     ]]
-        self.interpreter.setup(program)
+        self.interpreter.load(program)
         result = self.interpreter.run()
         self.assertEqual(3, result)
 
     def test_define_variable(self):
         program = [["define", "x", 5], ["define", "y", 6], ["+", "y", "x"]]
-        self.interpreter.setup(program)
+        self.interpreter.load(program)
         result = self.interpreter.run()
         self.assertEqual(11, result)
 
     def test_define_function(self):
         program = [["define", ["double", "x"], ["*", "x", 2]], ["double", 2]]
-        self.interpreter.setup(program)
+        self.interpreter.load(program)
         result = self.interpreter.run()
         self.assertEqual(4, result)

@@ -35,7 +35,7 @@ class Testparser(unittest.TestCase):
                         ("NUMBER", "34"),
                         ("PAREN",  ")")]
         correct_output = [["34"]]
-        self.parser.setup(input_tokens)
+        self.parser.load(input_tokens)
         self.parser.parse()
         self.assertListEqual(correct_output, self.parser.output)
 
@@ -58,7 +58,7 @@ class Testparser(unittest.TestCase):
 
                         ("PAREN",  ")")]
         correct_output = [["+", ["*", "345", "86"], ["/", "100", "5"]]]
-        self.parser.setup(input_tokens)
+        self.parser.load(input_tokens)
         self.parser.parse()
         self.assertListEqual(correct_output, self.parser.output)
 
@@ -87,6 +87,6 @@ class Testparser(unittest.TestCase):
                         ("PAREN",  ")")]
         correct_output = [["defn", "a", "20"],
                           ["+", ["*", "345", "a"], ["/", "100", "5"]]]
-        self.parser.setup(input_tokens)
+        self.parser.load(input_tokens)
         self.parser.parse()
         self.assertListEqual(correct_output, self.parser.output)
