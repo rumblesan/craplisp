@@ -34,12 +34,13 @@ class interpreter(object):
             if result is not None:
                 return result
 
-    def create_local_scope(self, names, values):
-        if len(names) is not len(values):
+    def create_local_scope(self, name, args, values):
+        self.callstack.append((name, args, values))
+        if len(args) is not len(values):
             self.error("Should be as many args as names")
         else:
             scope = {}
-            for (k, v) in zip(names, values):
+            for (k, v) in zip(args, values):
                 scope[k] = v
             self.scopes.append(self.local_scope)
             self.local_scope = scope
@@ -47,6 +48,7 @@ class interpreter(object):
         return scope
 
     def exit_local_scope(self):
+        self.callstack.pop()
         if len(self.scopes) > 0:
             self.local_scope = self.scopes.pop()
         else:
@@ -71,10 +73,8 @@ class interpreter(object):
             self.error("%s doesn't appear to be a valid function" % expr)
 
     def interpret_function(self, name, func, args):
-        self.create_local_scope(func['args'], args)
-        self.callstack.append((name, func['args'], args))
+        self.create_local_scope(name, func['args'], args)
         r = self.interpret(func['body'])
-        self.callstack.pop()
         self.exit_local_scope()
         return r
 
