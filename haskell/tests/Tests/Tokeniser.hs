@@ -1,4 +1,5 @@
-module Tokeniser_Test where
+
+module Tests.Tokeniser ( testTokeniser ) where
 
 import Tokeniser ( tokenise, parse_number, parse_symbol, parse_string )
 import Test.HUnit
