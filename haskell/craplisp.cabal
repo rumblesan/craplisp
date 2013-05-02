@@ -21,4 +21,4 @@ Test-Suite test-craplisp
     type:           exitcode-stdio-1.0
     main-is:        test-craplisp.hs
     hs-source-dirs: src, tests
-    build-depends:  base
+    Build-Depends:  test-framework, test-framework-hunit, HUnit

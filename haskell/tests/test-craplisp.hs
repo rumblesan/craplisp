@@ -1,9 +1,13 @@
 
 module Main where
 
-import System.Exit
+import qualified Tests.Tokeniser ( testTokeniser )
+import Data.Monoid
+import Test.Framework
+import Test.Framework.Providers.HUnit
+import Test.HUnit
 
 main :: IO ()
-main= do
-    putStrLn "tests"
+main = defaultMainWithOpts
+       [ Tests.Tokeniser.testTokeniser ] mempty
 
