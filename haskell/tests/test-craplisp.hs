@@ -1,13 +1,13 @@
 
 module Main where
 
-import qualified Tests.Tokeniser ( testTokeniser )
-import Data.Monoid
-import Test.Framework
-import Test.Framework.Providers.HUnit
-import Test.HUnit
+import Tests.Tokeniser ( testTokeniser )
+
+import Test.Framework (Test, defaultMain)
 
 main :: IO ()
-main = defaultMainWithOpts
-       [ Tests.Tokeniser.testTokeniser ] mempty
+main = defaultMain tests
+
+tests :: [Test]
+tests = [testTokeniser]
 
