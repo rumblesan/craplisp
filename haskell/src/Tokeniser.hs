@@ -12,6 +12,7 @@ data Token = OpenParen
            | CloseParen
            | Symbol String
            | Str String
+           | List [Token]
            | Number Int
            deriving (Show, Eq, Ord)
 
