@@ -26,6 +26,7 @@ token_recur (program, tokens)
     | char == '(' = token_recur (tail program, tokens ++ [[char]])
     | char == ')' = token_recur (tail program, tokens ++ [[char]])
     | isSpace char = token_recur (tail program, tokens)
+    | otherwise = error "Shouldn't be anything else"
     where char = head program
           isSymb s = isAlpha s || isSymbol s
 
