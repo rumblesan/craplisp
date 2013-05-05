@@ -1,11 +1,18 @@
 module Tokeniser
-( tokenise,
+( Token (..),
+  tokenise,
   parse_number,
   parse_symbol,
   parse_string
 ) where
 
 import Data.Char
+
+data Token = OpenParen
+           | CloseParen
+           | Symbol String
+           | Number Int
+           deriving (Show, Eq, Ord)
 
 tokenise :: String -> [String]
 tokenise program = token_recur (program, [])

@@ -1,14 +1,12 @@
 
 module Parser
-( Token (..),
-  Expression (..),
+( Expression (..),
   parse,
   parseExpr,
   subExpr
 ) where
 
-
-data Token = Token String deriving (Show, Eq, Ord)
+import Tokeniser ( Token )
 
 data Expression = Node Token
                 | List [Expression] deriving (Show, Eq)
