@@ -6,7 +6,7 @@ module Parser
   subExpr
 ) where
 
-import Tokeniser ( Token )
+import Tokeniser ( Token (..) )
 
 data Expression = Node Token
                 | List [Expression] deriving (Show, Eq)
@@ -23,8 +23,8 @@ parseExpr (current, (i:is))
     | isOpen i = subExpr (current, is)
     | isClose i = (current, is)
     | otherwise = parseExpr (current ++ [Node i], is)
-    where isOpen t = t == Token "("
-          isClose t = t == Token ")"
+    where isOpen t = t == OpenParen
+          isClose t = t == CloseParen
 
 subExpr :: ([Expression], [Token]) -> ([Expression], [Token])
 subExpr (current, []) = (current, [])
