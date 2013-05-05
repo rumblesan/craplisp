@@ -1,5 +1,11 @@
 
-module CrapParser (parse, parseExpr, subExpr) where
+module Parser
+( Token (..),
+  Expression (..),
+  parse,
+  parseExpr,
+  subExpr
+) where
 
 
 data Token = Token String deriving (Show, Eq)
