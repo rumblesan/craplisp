@@ -1,32 +1,28 @@
 
 module Parser
-( Expression (..),
-  parse,
+( parse,
   parseExpr,
   subExpr
 ) where
 
 import Tokeniser ( Token (..) )
 
-data Expression = Node Token
-                | List [Expression] deriving (Show, Eq)
 
-
-parse :: [Token] -> [Expression]
+parse :: [Token] -> [Token]
 parse [] = []
 parse tokens = fst $ parseExpr ([], tokens)
 
 
-parseExpr :: ([Expression], [Token]) -> ([Expression], [Token])
+parseExpr :: ([Token], [Token]) -> ([Token], [Token])
 parseExpr (current, []) = (current, [])
 parseExpr (current, (i:is))
     | isOpen i = subExpr (current, is)
     | isClose i = (current, is)
-    | otherwise = parseExpr (current ++ [Node i], is)
+    | otherwise = parseExpr (current ++ [i], is)
     where isOpen t = t == OpenParen
           isClose t = t == CloseParen
 
-subExpr :: ([Expression], [Token]) -> ([Expression], [Token])
+subExpr :: ([Token], [Token]) -> ([Token], [Token])
 subExpr (current, []) = (current, [])
 subExpr (output, tokens) =
     let (newExpr, remaining) = parseExpr ([], tokens)
