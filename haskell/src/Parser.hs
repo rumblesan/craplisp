@@ -8,7 +8,7 @@ module Parser
 ) where
 
 
-data Token = Token String deriving (Show, Eq)
+data Token = Token String deriving (Show, Eq, Ord)
 
 data Expression = Node Token
                 | List [Expression] deriving (Show, Eq)

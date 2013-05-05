@@ -10,6 +10,5 @@ main :: IO ()
 main = defaultMain tests
 
 tests :: [Test]
-tests = [testTokeniser,
-         testParser]
+tests = [testTokeniser, testParser]
 
