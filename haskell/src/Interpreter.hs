@@ -4,14 +4,16 @@ module Interpreter
  VM (..),
  interpret,
  createVm,
- interpretExpression
+ interpretToken,
+ interpretExpressions
 ) where
 
 import qualified Data.Map as Map
 
 import Tokeniser ( Token (..) )
+import Parser ( Expression (..) )
 
-type Method = VM -> [Token] -> Token
+type Method = (VM, [Token]) -> (VM, Token)
 
 data VM = VM { symbols :: Map.Map Token Token,
                methods :: Map.Map Token Method,
@@ -34,41 +36,51 @@ createMethodMap = Map.fromList [ (Symbol "+", method_plus),
                                  (Symbol "/", method_div)
                                ]
 
-interpret :: Token -> Token
-interpret = interpretExpression $ createVm
+interpret :: [Expression] -> Token
+interpret exprs = snd $ interpretExpressions createVm exprs
 
-interpretExpression :: VM -> Token -> Token
-interpretExpression vm (List tokens) =
+interpretExpressions :: VM -> [Expression] -> (VM, Token)
+interpretExpressions vm exprs =
+    let token (Expr t) = List t
+    in foldl (\(v, _) e -> interpretToken (v, token e)) (vm, List []) exprs
+
+
+interpretToken :: (VM, Token) -> (VM, Token)
+interpretToken (vm, (List tokens)) =
     let func = head tokens
         args = tail tokens
         method = Map.findWithDefault (error "Could not find method") func (methods vm)
-    in method vm args
-interpretExpression _ (Symbol symbol) = Symbol symbol
-interpretExpression _ token = token
+    in method (vm, args)
+interpretToken (vm, (Symbol symbol)) = (vm, Symbol symbol)
+interpretToken (vm, token) = (vm, token)
+
+
+mapInterpreting :: VM -> [Token] -> [Token]
+mapInterpreting vm tokens = map (\t -> snd $ interpretToken (vm, t)) tokens
 
 
 method_plus :: Method
-method_plus vm expressions =
-    let interpreted = map (interpretExpression vm) expressions
+method_plus (vm, tokens) =
+    let interpreted = mapInterpreting vm tokens
         numbers = map (\(Number x) -> x) interpreted
-    in Number $ sum numbers
+    in (vm, Number $ sum numbers)
 
 method_sub :: Method
-method_sub vm expressions =
-    let interpreted = map (interpretExpression vm) expressions
+method_sub (vm, tokens) =
+    let interpreted = mapInterpreting vm tokens
         numbers = map (\(Number x) -> x) interpreted
-    in Number $ (head numbers) - (sum $ tail numbers)
+    in (vm, Number $ (head numbers) - (sum $ tail numbers))
 
 method_mult :: Method
-method_mult vm expressions =
-    let interpreted = map (interpretExpression vm) expressions
+method_mult (vm, tokens) =
+    let interpreted = mapInterpreting vm tokens
         numbers = map (\(Number x) -> x) interpreted
-    in Number $ product numbers
+    in (vm, Number $ product numbers)
 
 method_div :: Method
-method_div vm expressions =
-    let interpreted = map (interpretExpression vm) expressions
+method_div (vm, tokens) =
+    let interpreted = mapInterpreting vm tokens
         numbers = map (\(Number x) -> x) interpreted
-    in Number $ (head numbers) `div` (product $ tail numbers)
+    in (vm, Number $ (head numbers) `div` (product $ tail numbers))
 
 
