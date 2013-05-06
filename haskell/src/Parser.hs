@@ -1,16 +1,19 @@
 
 module Parser
-( parse,
+( Expression (..),
+  parse,
   parseExpr,
   subExpr
 ) where
 
 import Tokeniser ( Token (..) )
 
+data Expression = Expr [Token] deriving (Show, Eq)
 
-parse :: [Token] -> [Token]
+
+parse :: [Token] -> [Expression]
 parse [] = []
-parse tokens = fst $ parseExpr ([], tokens)
+parse tokens = map (\(List l) -> Expr l) (fst $ parseExpr ([], tokens))
 
 
 parseExpr :: ([Token], [Token]) -> ([Token], [Token])
